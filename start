@@ -1,0 +1,16 @@
+#!/usr/bin/env php
+<?php
+namespace Builder;
+error_reporting(E_ERROR | E_PARSE | E_USER_ERROR);
+
+define("BASE_DIR", __DIR__);
+
+include("../core/akari.php");
+
+use Akari\akari;
+
+akari::getInstance()
+    ->initApp(__DIR__, __NAMESPACE__)
+    ->run($argv[1]);
+
+DIE("TASK FINISHED");
