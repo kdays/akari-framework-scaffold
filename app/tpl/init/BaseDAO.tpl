@@ -18,32 +18,32 @@ abstract class BaseDAO extends Plugin {
 
     protected function initConnection($cfg = 'default') {
         if ($this->connection) {
-return $this->connection;
-}
-
-$conn = DBConnFactory::get($cfg);
-return $this->connection = $conn;
-}
-
-public function initBuilder(BaseSQLMap $SQLMap) {
-if (!$this->builder) {
-$this->builder = new SQLMapBuilder($SQLMap, $this->connection);
-}
-
-return $this->builder;
-}
-
-/**
-* 单例公共调用，不应在action中调用本方法
-* @return static
-*/
-public static function getInstance() {
-$class = get_called_class();
-if (!isset(self::$m[$class])) {
-self::$m[ $class ] = new $class;
-}
-
-return self::$m[ $class ];
-}
+            return $this->connection;
+        }
+    
+        $conn = DBConnFactory::get($cfg);
+        return $this->connection = $conn;
+    }
+    
+    public function initBuilder(BaseSQLMap $SQLMap) {
+        if (!$this->builder) {
+            $this->builder = new SQLMapBuilder($SQLMap, $this->connection);
+        }
+        
+        return $this->builder;
+    }
+    
+    /**
+    * 单例公共调用，不应在action中调用本方法
+    * @return static
+    */
+    public static function getInstance() {
+        $class = get_called_class();
+        if (!isset(self::$m[$class])) {
+            self::$m[ $class ] = new $class;
+        }
+        
+        return self::$m[ $class ];
+    }
 
 }
