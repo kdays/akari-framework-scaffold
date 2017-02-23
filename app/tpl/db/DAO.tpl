@@ -3,7 +3,7 @@ namespace %ns\dao;
 
 use %ns\model\db\%name;
         
-class %name extends BaseDAO {
+class %nameDAO extends BaseDAO {
     
     public function __construct() {
         $this->initConnection();

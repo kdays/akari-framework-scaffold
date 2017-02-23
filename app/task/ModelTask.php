@@ -223,7 +223,7 @@ EOT
         $p = file_get_contents(BASE_DIR. "/app/tpl/db/DAO.tpl");
         $p = str_replace(['%ns', '%name', '%func'], [$this->appNs, $modelName, $result], $p);
         
-        FileHelper::write($saveAs. DIRECTORY_SEPARATOR. $modelName. ".php", $p);
+        FileHelper::write($saveAs. DIRECTORY_SEPARATOR. $modelName. "DAO.php", $p);
     }
     
     protected function createModel(DBConnection $connection, $tableName, $tablePrefix, $dbName) {

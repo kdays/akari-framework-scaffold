@@ -115,6 +115,18 @@ EOT;
         $this->copyTpl('BaseDAO', $baseArr, 'dao/BaseDAO.php');
         $this->copyTpl('BaseService', $baseArr, 'service/BaseService.php');
         $this->copyTpl('DefaultCtl', $baseArr, 'action/IndexAction.php');   
+        
+        $this->output->write("<question>请输入Web目录地址 (默认:../web/)</question>");
+        $webPath = $this->input->getInput();
+        if (empty($webPath)) $webPath = "../web/";
+
+        if (!is_dir($webPath)) {
+            mkdir($webPath);
+        }
+        $webPath = realpath($webPath);
+        $this->tarDir = $webPath;
+        
+        $this->copyTpl("Boot", $baseArr, "index.php");
     }
 
     
