@@ -132,7 +132,7 @@ class ModelTask extends BaseTask {
         'delete.by_%PK' => [
              'sql' => "DELETE FROM `@TABLE_NAME` WHERE `%PK` = :id ",
              'required' => ['id']
-        ];
+        ],
 
 EOT;
         }
@@ -145,7 +145,7 @@ EOT;
             
         'count.all' => [
              'sql' => 'SELECT count(*) FROM `@TABLE_NAME`'
-        ]
+        ],
 
 EOT;
         
@@ -174,7 +174,7 @@ EOT;
             
             $fn = <<<'EOT'
     public function getBy%fnPK($%PK) {
-        return $this->builder->execute("row.by_%PK", ['id' => $%PK])
+        return $this->builder->execute("row.by_%PK", ['id' => $%PK]);
     }
     
     public function deleteBy%fnPK($%PK) {
@@ -220,7 +220,7 @@ EOT
         $fn = str_replace(['%model', '%except'], [$modelName, $except], $fn);
         $result .= $fn;
         
-        $p = file_get_contents(BASE_DIR. "/app/tpl/db/DAO.tpl");
+        $p = file_get_contents(BASE_DIR. "/app/stub/db/DAO.stub");
         $p = str_replace(['%ns', '%name', '%func'], [$this->appNs, $modelName, $result], $p);
         
         FileHelper::write($saveAs. DIRECTORY_SEPARATOR. $modelName. "DAO.php", $p);
@@ -291,7 +291,7 @@ EOT;
         // 创建columnMap
         $columnMapText = var_export($columnMap, TRUE);
         
-        $tpl = file_get_contents(BASE_DIR. "/app/tpl/db/Model.tpl");
+        $tpl = file_get_contents(BASE_DIR. "/app/stub/db/Model.stub");
         $file = str_replace(
             ['%columns', '%table', '%map', '%name', '%ns', '%func'],
             [$colText, $tableName, $columnMapText, $modelName, $this->appNs, $modelFunc],

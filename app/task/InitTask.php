@@ -11,6 +11,7 @@ namespace Builder\task;
 
 use Akari\action\BaseTask;
 use Akari\utility\FileHelper;
+use Akari\utility\TextHelper;
 use Builder\lib\DbConn;
 
 class InitTask extends BaseTask {
@@ -106,9 +107,22 @@ EOT;
         } else {
             $databaseCfg = '';
         }
+        
+        // 创建基础Cookie的秘钥和通用秘钥
+        $commonEncryptStr = TextHelper::randomStr(16);
+        $cookieEncryptStr = TextHelper::randomStr(16);
+        
+        $this->output->write("<info>加密已自动配置: 公共 - $commonEncryptStr</info>");
+        $this->output->write("<info>加密已自动配置: Cookie加密 - $cookieEncryptStr</info>");
 
+        // 配置处理
+        $cfgOpts = [
+            'defaultKey' => $commonEncryptStr,
+            'cookieKey' => $cookieEncryptStr,
+            'database' => $databaseCfg
+        ];
         $this->output->write("<success>配置文件完成</success>");
-        $this->copyTpl("BaseConfig", $baseArr + ['database' => $databaseCfg], 'config/Config.php');    
+        $this->copyTpl("BaseConfig", $baseArr + $cfgOpts, 'config/Config.php');    
         
         $this->copyTpl('BaseAction', $baseArr, 'action/BaseFrontAction.php');
         $this->copyTpl('BaseDatabaseModel', $baseArr, 'model/db/BaseModel.php');
@@ -131,9 +145,9 @@ EOT;
 
     
     private function copyTpl($tpl, $arr, $target) {
-        $source = BASE_DIR . "/app/tpl/init/". $tpl . ".tpl";
+        $source = BASE_DIR . "/app/stub/init/". $tpl . ".stub";
         if (!file_exists($source)) {
-            die("TPL ". $source . " NOT FOUND");
+            die("STUB ". $source . " NOT FOUND");
         }
         
         $tpl = file_get_contents($source);

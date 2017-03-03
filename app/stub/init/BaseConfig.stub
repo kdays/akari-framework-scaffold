@@ -1,0 +1,30 @@
+<?php
+
+namespace %ns\config;
+
+use Akari\config\BaseConfig;
+
+class Config extends BaseConfig {
+    
+    public $appName = "%appName";
+    
+    public $encrypt = [
+        'default' => [
+            'cipher' => \Akari\system\security\cipher\AESCipher::class,
+             'options' => [
+                 'secret' => '%defaultKey'
+             ]
+        ],
+    
+        'cookie' => [
+             'cipher' => \Akari\system\security\cipher\AESCipher::class,
+             'options' => [
+                'secret' => '%cookieKey'
+             ]
+        ]
+    ];
+
+        
+    %database
+    
+}
